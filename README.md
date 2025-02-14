@@ -1,70 +1,164 @@
-# Getting Started with Create React App
+# Resume and Job Description Matcher
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a full-stack application that allows users to upload a resume and a job description, and then get a match score and evaluation using the OpenAI API. The application leverages a React frontend and a Flask backend.
 
-## Available Scripts
+## Project Capabilities
 
-In the project directory, you can run:
+- **File Upload**: Users can upload resume files in `.doc`, `.docx` or `.pdf` formats, and job description files in `.doc`, `.docx` or `.pdf` formats.
+- **Match Score**: The application evaluates how well the resume matches the job description and provides a match score.
+- **Evaluation**: The application uses the OpenAI API to provide a detailed evaluation of the match, including suggestions for improving the resume to better fit the job description.
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React
+- **Backend**: Flask
+- **Database**: SQLite
+- **File Processing**: `python-docx` for `.doc` files, `PyPDF2` for `.pdf` files
+- **AI Evaluation**: OpenAI API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+- Node.js and npm (for running the React frontend)
+- Python 3.x and pip (for running the Flask backend)
+- OpenAI API Key
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+### Backend (Flask)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Navigate to the `backend` directory:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    ```bash
+    cd backend
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Create and activate a virtual environment:
 
-### `npm run eject`
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Install the required Python packages:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Create a `.env` file in the `backend` directory and add your OpenAI API key:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    ```bash
+    OPENAI_API_KEY=your_openai_api_key
+    ```
 
-## Learn More
+5. Run the Flask application:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    ```bash
+    flask run
+    ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Frontend (React)
 
-### Code Splitting
+1. Navigate to the `frontend` directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    ```bash
+    cd frontend
+    ```
 
-### Analyzing the Bundle Size
+2. Install the required npm packages:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    ```bash
+    npm install
+    ```
 
-### Making a Progressive Web App
+3. Start the React application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    ```bash
+    npm start
+    ```
 
-### Advanced Configuration
+## Running the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. **Start the Flask backend**:
 
-### Deployment
+    ```bash
+    cd backend
+    source venv/bin/activate
+    flask run
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. **Start the React frontend**:
 
-### `npm run build` fails to minify
+    ```bash
+    cd frontend
+    npm start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. Open your web browser and go to `http://localhost:3000` to access the application.
+
+## File Structure
+
+### Backend
+
+- `app.py`: Main Flask application file.
+- `models.py`: SQLAlchemy models for the database.
+- `requirements.txt`: List of Python dependencies.
+- `uploads/`: Directory to store uploaded files.
+
+### Frontend
+
+- `src/App.js`: Main React application file.
+- `public/`: Public assets for the React application.
+- `package.json`: List of npm dependencies.
+
+## API Endpoints
+
+### `/upload` (POST)
+
+- **Description**: Upload a resume and a job description, and get a match score and evaluation.
+- **Request**: Multipart form data with `resume` and `jobDescription` files.
+- **Response**: JSON object with `score` and `suggestions`.
+
+## Example Response
+
+```json
+{
+  "score": 85.0,
+  "suggestions": "Tela Wittig's resume is clearly impressive and highlights a strong history of professional achievements in software engineering and leadership roles. To strengthen the resume further and increase its impact, consider the following suggestions:
+
+Format and Structure:
+
+Add a Space After Name: Ensure there is a space between "PMP" and the rest of the contact information for better readability.
+Section Headings: Use clear section headings (e.g., "Executive Summary," "Skills," "Professional Experience," "Education") that are easily distinguishable using bold or a slightly larger font size.
+Consistent Bullets: Ensure bullet points are consistently used across the document for all achievements under each role to enhance readability and organization.
+Contact Information:
+
+Reverse Order: Place the LinkedIn URL after the email for a more intuitive left-to-right reading flow of essential contacts.
+Executive Summary:
+
+Conciseness: Keep it concise by removing less impactful words and emphasizing your unique value proposition and achievements.
+Quantifiable Metrics: Further emphasize quantifiable achievements or specific technologies/initiatives to support claims of innovation and impact.
+Skills Section:
+
+Reorganization: Group related skills into categories (e.g., Programming Languages, Cloud Platforms, Development Practices) for an easier grasp of capabilities.
+Avoid Repetition: "Data Engineering" appears twice; keep only one instance to avoid redundancy.
+Prioritization: Place the most critical skills and technologies for the roles you’re targeting towards the start.
+Professional Experience:
+
+Verb Consistency: Start each bullet with active verbs for better emphasis and impact.
+Impact Metrics: Attempt to include more specific metrics or results, where feasible, to illustrate success or impact beyond the mentioned instances.
+Descriptive Details: When stating achievements, try to include more context (like technologies used) around the accomplishment for added clarity.
+Avoid Ambiguity: Explain initially unclear terms or acronyms under experience descriptions, like "RFPs," for clarity to non-specialists.
+Education:
+
+Placement: Consider moving the education section before professional experience if targeting roles at companies that heavily weigh academic background. Otherwise, it is positioned well.
+Details: Adding relevant coursework or projects might also aid in showcasing relevance to technology roles, although this can be optional given current experience levels.
+Certifications:
+
+Separate Section: Consider creating a separate section for certifications, especially since being a PMP is a significant credential and may be overlooked if not properly highlighted.
+General Suggestions:
+
+Tailoring: Tailor the resume to each specific job application by adding relevant keywords based on job descriptions, ensuring alignment with desired roles.
+Proofreading: Ensure the entire document is free from typographical errors and grammatical mistakes.
+Implementing these improvements will enhance the clarity, focus, and professional presentation of Tela Wittig’s resume."
+}
