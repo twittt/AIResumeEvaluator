@@ -1,0 +1,6 @@
+flask
+werkzeug
+python-docx
+PyPDF2
+sklearn
+Flask>=2.2.2
